@@ -7,16 +7,15 @@ const int maxsize = 100000;
 
 var vs = new bool[maxsize + 1];
 vs[0] = true; // hack as as the numbers start at 1
+using var client = new WebClient();
 
-using (WebClient client = new WebClient())
+foreach (var number in 
+    client
+    .DownloadString(url)
+    .Split(',')
+    .Select(s => int.Parse(s)))
 {
-    foreach (var number in client
-        .DownloadString(url)
-        .Split(',')
-        .Select(s => int.Parse(s)))
-    {
-        vs[number] = true;
-    }
-
-    Console.WriteLine(Array.IndexOf(vs, false));
+    vs[number] = true;
 }
+
+Console.WriteLine(Array.IndexOf(vs, false));
